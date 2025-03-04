@@ -39,7 +39,7 @@ dependencies:
   provider: # For state management
   fluttertoast: ^8.2.4 # Toast messages
   shared_preferences: ^2.2.2 # Storing user session (JWT)
-  image_picker: ^1.0.7 # Profile picture upload
+  image_picker:  # Profile picture upload
   flutter_svg: ^2.0.9 # For SVG icons
   swipe_cards: ^2.0.0+1
   flutter_chat_ui: ^1.6.15

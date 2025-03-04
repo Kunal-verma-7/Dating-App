@@ -1,11 +1,17 @@
+import 'package:dating_app/authenticationScreen/login_screen.dart';
+import 'package:dating_app/controllers/authentication_controller.dart';
 import 'package:dating_app/widgets/custom_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../services/api_services.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  RegistrationScreen({super.key});
+  const RegistrationScreen({super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
@@ -61,6 +67,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController ethnicityTextEditingController =
       TextEditingController();
 
+  bool showProgressBar = false;
+  var authenticationController = AuthenticationController.authController;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +78,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             children: [
               const SizedBox(
-                height: 100,
+                height: 30,
               ),
               const Text('Create Account',
                   style: TextStyle(
@@ -89,20 +98,31 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
               // choose image
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  authenticationController.pickImageFileFromGallery();
+                },
                 child: const CircleAvatar(
                   radius: 80,
                   backgroundColor: Colors.black,
-                  backgroundImage: AssetImage('logo.jpg'),
+                  backgroundImage: AssetImage('/logo.jpg'),
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
 
               // Personal Information
 
+              Container(
+                child: const Text(
+                  'Personal Information',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
               // Name
               SizedBox(
                 height: 55,
@@ -225,6 +245,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
               //                                                              Appearance
 
+              const Text(
+                'Appearance',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+
               SizedBox(
                 height: 55,
                 width: MediaQuery.of(context).size.width - 36,
@@ -270,6 +298,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
 
               //                                                              Life Style
+
+              const Text(
+                'Life Style',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
 
               // Drink
               SizedBox(
@@ -423,7 +459,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
 
               //                                                background cultural values
-              
+
+              Container(
+                child: const Text(
+                  'background Cultural Values',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+
               // Nationality
               SizedBox(
                 height: 55,
@@ -439,7 +485,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 10,
               ),
 
-                  // Education
+              // Education
               SizedBox(
                 height: 55,
                 width: MediaQuery.of(context).size.width - 36,
@@ -454,7 +500,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 10,
               ),
 
-            // Language Spoken
+              // Language Spoken
               SizedBox(
                 height: 55,
                 width: MediaQuery.of(context).size.width - 36,
@@ -469,7 +515,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 10,
               ),
 
-                  // Religion
+              // Religion
               SizedBox(
                 height: 55,
                 width: MediaQuery.of(context).size.width - 36,
@@ -484,7 +530,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 10,
               ),
 
-                // Ethnicity
+              // Ethnicity
               SizedBox(
                 height: 55,
                 width: MediaQuery.of(context).size.width - 36,
@@ -498,6 +544,47 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               const SizedBox(
                 height: 10,
               ),
+
+              Container(
+                width: MediaQuery.sizeOf(context).width - 36,
+                height: 55,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+                child: InkWell(
+                  onTap: () async {
+                    String username = nameTextEditingController.toString();
+                    String email = emailTextEditingController.toString();
+                    String password = passTextEditingController.toString();
+
+                    try {
+                      Map<String, dynamic> response =
+                          await ApiService.registerUser(
+                              username, email, password);
+                      print('Registration Response: $response');
+                    } catch (e) {
+                      print('Error: $e');
+                    }
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginScreen()),);
+                  },
+                  child: const Center(
+                    child: Text(
+                      'Create Account',
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+
+              showProgressBar == true
+                  ? const CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
+                    )
+                  : Container(),
             ],
           ),
         ),

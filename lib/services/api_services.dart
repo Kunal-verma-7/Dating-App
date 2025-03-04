@@ -6,11 +6,11 @@ class ApiService {
   static const String baseUrl = 'http://localhost:5000/api/auth';
 
   // Register User
-  static Future<Map<String, dynamic>> registerUser(String email, String password) async {
+  static Future<Map<String, dynamic>> registerUser( username, email, password) async {
     final response = await http.post(
       Uri.parse('$baseUrl/register'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({"email": email, "password": password}),
+      body: jsonEncode({"email": email, "password": password, username:"username"}),
     );
     return jsonDecode(response.body);
   }
