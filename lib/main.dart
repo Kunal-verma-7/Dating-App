@@ -1,4 +1,5 @@
 import 'package:dating_app/screens/input_screens/distance_prefrence.dart';
+import 'package:dating_app/screens/input_screens/school_input.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
     home:Scaffold(
       backgroundColor: Colors.white,
-      body: DistancePreferenceScreen(),
+      body: SchoolInputScreen(),
       )
     );
   }
