@@ -1,13 +1,18 @@
-import 'package:dating_app/authenticationScreen/registration_screen.dart';
-import 'package:dating_app/controllers/authentication_controller.dart';
-import 'package:dating_app/screens/login_screen.dart';
+import 'package:dating_app/authenticationScreen/input_email.dart';
+import 'package:dating_app/authenticationScreen/login_screen.dart';
+import 'package:dating_app/authenticationScreen/otp_verification.dart';
+import 'package:dating_app/authenticationScreen/sign_in_with_phone.dart';
+import 'package:dating_app/screens/input_screens/dob.dart';
+import 'package:dating_app/screens/input_screens/enter_name.dart';
+import 'package:dating_app/screens/input_screens/gender_selection.dart';
+import 'package:dating_app/screens/input_screens/interest.dart';
+import 'package:dating_app/screens/input_screens/location.dart';
+import 'package:dating_app/screens/input_screens/orientation.dart';
+import 'package:dating_app/screens/splash_screen.dart';
+import 'package:dating_app/screens/input_screens/welcome_to_app.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  Get.put(AuthenticationController()); 
   runApp(MyApp());
 }
 
@@ -17,29 +22,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLoggedIn = false;
-
-  @override
-  void initState() {
-    super.initState();
-    checkLoginStatus();
-  }
-
-  void checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString("token");
-    setState(() {
-      isLoggedIn = token != null;
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
     home:Scaffold(
       backgroundColor: Colors.white,
-      body: RegistrationScreen(),
+      body: InterestSelectionScreen(),
       )
     );
   }

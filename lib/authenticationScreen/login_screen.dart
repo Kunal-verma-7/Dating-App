@@ -1,92 +1,130 @@
-import 'package:dating_app/widgets/custom_text_field.dart';
+import 'package:dating_app/authenticationScreen/sign_in_with_phone.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const LoginScreen(),
+    );
+  }
+}
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
-
-  TextEditingController emailTextEditingController = TextEditingController();
-  TextEditingController passTextEditingController = TextEditingController();
-  bool showProgressBar = false;
-  
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                '/images/logo.jpg',
-                height: 300,
-              ),
-              const Text(
-                'Welcome',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
-              ),
-              const Text(
-                'Login now to find your best match',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              Container(
-                height: 55,
-                width: MediaQuery.of(context).size.width - 36,
-                child: CustomTextFieldWidget(
-                  editingController: emailTextEditingController,
-                  labelText: "Email",
-                  iconData: Icons.email_outlined,
-                  isObscure: false,
-                ),
-              ),
-              Container(
-                height: 55,
-                width: MediaQuery.of(context).size.width - 36,
-                child: CustomTextFieldWidget(
-                  editingController: passTextEditingController,
-                  labelText: "Password",
-                  iconData: Icons.password_outlined,
-                  isObscure: true,
-                ),
-              ),
-              Container(
-                height: 55,
-                width: MediaQuery.of(context).size.width - 36,
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(8)),
-                    child: InkWell(
-                      onTap: (){},
-                      child: const Center(child: Text('Login',style: TextStyle(color:Colors.white ,fontWeight: FontWeight.bold, fontSize: 20),),),
-                    )
-              ),
-              const SizedBox(height: 30,),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Dont have account ? ",style: TextStyle(fontSize:19),),
-                  InkWell(
-                    onTap: (){},
-                    child: const Text('Create here',style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.red),),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30,),
-              showProgressBar == true ? const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
-              ): Container(),
-              
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 255, 31, 105),
+              Color.fromARGB(201, 255, 173, 49)
             ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            Text(
+              'SWIPEMATE',
+              style: GoogleFonts.poppins(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                'By tapping "Sign in", you agree to our Terms. Learn how we process your data in our Privacy Policy and Cookies Policy.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildSignInButton(
+                'Sign in with Google', Icons.email, Colors.white, Colors.black),
+            _buildSignInButton('Sign in with Facebook', Icons.facebook,
+                Colors.blue, Colors.white),
+            Container(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: ListTile(
+                  leading: Icon(Icons.phone, color: Colors.black),
+                  title: Text(
+                    'Sign in with phone number',
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignInWithPhone(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )),
+            Text(
+              'Trouble signing in?',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignInButton(
+      String text, IconData icon, Color bgColor, Color textColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: ListTile(
+          leading: Icon(icon, color: textColor),
+          title: Text(
+            text,
+            style: GoogleFonts.poppins(
+              color: textColor,
+              fontSize: 16,
+            ),
+          ),
+          onTap: () {},
         ),
       ),
     );
